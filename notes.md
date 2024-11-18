@@ -63,7 +63,7 @@ ansible webservers -m hostname -a "name=martinvyhonsky" -b -> change hostname
 ansible debian -m copy -a "src=/home/ubuntu/test dest=/tmp" -b -> copy file.
 ansible debian -m command -a "mv /tmp/test /tmp/nove/" -b -> move file.
 ansible webservers -m apt -a "name=vim update_cache=yes" -b -> install vim on remote hostname.
-ansible dbservers -m shell -a "/sbin/reboot" -b -> reboots and disconnect imietadlyt
+ansible dbservers -m shell -a "/sbin/reboot" -b -> reboots and disconnect immiadetely.
 ansible dbservers -m reboot -b --ask-become-pass -> wait for reboot response after reboot.
 --ask-become-pass -> ask for password for sudo.
 ansible dbservers -m command -a "/sbin/reboot" -b -> reboot.
