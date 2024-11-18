@@ -11,9 +11,9 @@ ubuntu ansible_connection=local ansible_user=ubuntu VARIABLE=VALUE
 rhel ansible_host=54.93.174.83 ansible_port=22 ansible_user=ec2-user
 debian ansible_host=3.71.12.45 ansible_port=22 ansible_user=admin
 
-{name} ansible_host={remote_host_IP} ansible_port={port} ansible_user={remote_host_user} VARIABLE=VALUE
-for local host:
-{name} ansible_connection=local ansible_user={local_host_user} VARIABLE=VALUE
+# {name} ansible_host={remote_host_IP} ansible_port={port} ansible_user={remote_host_user} VARIABLE=VALUE #
+# for local host: #
+# {name} ansible_connection=local ansible_user={local_host_user} VARIABLE=VALUE #
 
 [webservers] -> create group from hosts. Names are from settings up.
 rhel
