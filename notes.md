@@ -4,7 +4,7 @@ ansible --version -> shows version and basic paths.
 
 ### Inventory file
 ```
-vim hosts.
+vim hosts
 ```
 ```
 ubuntu ansible_connection=local ansible_user=ubuntu VARIABLE=VALUE
