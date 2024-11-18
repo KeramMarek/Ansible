@@ -1,6 +1,3 @@
-eval $(ssh-agent -s) -> start SSH agent.
-ssh-add vyhonsky_keypair.pem -> add key identity to agent.
-
 ```
 ansible --version -> shows version and basic paths.
 ```
@@ -31,9 +28,6 @@ ansible_user=ubuntu
 [all:vars] -> variables for all.
 ansible_user=ubuntu
 ```
-
-------------------------------------------------------------------------------
-
 ### Config file
 ```
 export ANSIBLE_CONFIG=/path/to/config -> create variable, you can override restrictions with this. Like you can store hosts file even in /tmp.
