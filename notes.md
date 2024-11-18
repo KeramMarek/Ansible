@@ -58,7 +58,7 @@ Always search for module when you need something, if there is no module then use
 Examples:
 
 ansible debian -m apt -a "name=cmatrix" -b -> install cmatrix.
-nsible debian -m command -a "mkdir /tmp/nove" -b -> create dir.
+ansible debian -m command -a "mkdir /tmp/nove" -b -> create dir.
 ansible webservers -m hostname -a "name=martinvyhonsky" -b -> change hostname
 ansible debian -m copy -a "src=/home/ubuntu/test dest=/tmp" -b -> copy file.
 ansible debian -m command -a "mv /tmp/test /tmp/nove/" -b -> move file.
@@ -68,6 +68,99 @@ ansible dbservers -m reboot -b --ask-become-pass -> wait for reboot response aft
 --ask-become-pass -> ask for password for sudo.
 ansible dbservers -m command -a "/sbin/reboot" -b -> reboot.
 ansible webservers -m command -a "hostname" -b -> execute command hostname on remote host.
+
 ```
+### Playbook
+```
+vim playbook.yml
+
+- name: Testing Playbook
+  hosts:
+    - ubuntu
+    - debian
+    - rhel
+  gather_facts: no -> won't collect data of host.
+
+  vars:
+    moja_var: text
+
+  tasks:
+    - name: Install cmatrix
+      become: yes
+      ansible.builtin.apt:
+        name: cmatrix
+        state: present
+        update_cache: yes
+      tags:
+        - install
+        - instalacia
+
+    - name: Testing shell command
+      shell: echo test
+      tags:
+        - shell
+
+    - debug:
+        var: moja_var
+```
+```
+What is gather_facts?
+
+    gather_facts: yes (default behavior) collects information about the target host, such as:
+        Operating system details (ansible_os_family, ansible_distribution)
+        Network interfaces (ansible_default_ipv4, ansible_all_ipv6_addresses)
+        Disk usage and file systems
+        CPU and memory details
+        Hostname and FQDN
+        And more
+
+This information is stored in variables and can be used in tasks, templates, conditionals, and handlers.
+```
+```
+When to Use gather_facts: yes
+
+    You Need Host Information:
+        If your playbook references facts like ansible_os_family, ansible_hostname, or ansible_distribution, you need to gather them first.
+        Example: Installing different packages based on the OS.
+
+    tasks:
+      - name: Install Apache on Debian-based systems
+        ansible.builtin.apt:
+          name: apache2
+          state: present
+        when: ansible_os_family == "Debian"
+      - name: Install Apache on RedHat-based systems
+        ansible.builtin.yum:
+          name: httpd
+          state: present
+        when: ansible_os_family == "RedHat"
+
+Dynamic Inventory or Environment Customization:
+
+    If your inventory dynamically defines groups or variables based on system properties, gathering facts ensures they are available.
+```
+```
+- name: Common
+  hosts:
+    - ubuntu
+  #gather_facts: no
+  tasks:
+  - name: Install all packages
+    become: yes
+    apt:
+      name:
+        - htop
+        - vim
+        - kazam
+        - filezilla
+        - bluefish
+      state: present
+      update_cache: yes
+```
+
+
+ansible-playbook {playbook.yaml} -> execute your playbook.
+--tag {tag} -> execute only task with certain task.
+
 
 
