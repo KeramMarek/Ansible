@@ -104,6 +104,26 @@ vim playbook.yml
         var: moja_var
 ```
 ```
+vim common.yml
+
+- name: Common
+  hosts:
+    - ubuntu
+  #gather_facts: no
+  tasks:
+  - name: Install all packages
+    become: yes
+    apt:
+      name:
+        - htop
+        - vim
+        - kazam
+        - filezilla
+        - bluefish
+      state: present
+      update_cache: yes
+```
+```
 What is gather_facts?
 
     gather_facts: yes (default behavior) collects information about the target host, such as:
@@ -138,24 +158,6 @@ When to Use gather_facts: yes
 Dynamic Inventory or Environment Customization:
 
     If your inventory dynamically defines groups or variables based on system properties, gathering facts ensures they are available.
-```
-```
-- name: Common
-  hosts:
-    - ubuntu
-  #gather_facts: no
-  tasks:
-  - name: Install all packages
-    become: yes
-    apt:
-      name:
-        - htop
-        - vim
-        - kazam
-        - filezilla
-        - bluefish
-      state: present
-      update_cache: yes
 ```
 
 
