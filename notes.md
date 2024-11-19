@@ -32,33 +32,36 @@ ansible_user=ubuntu
 ansible_user=ubuntu
 
 ```
+
 ### Config file
+
 ```
-export ANSIBLE_CONFIG=/path/to/config -> create variable, you can override restrictions with this. Like you can store hosts file even in /tmp.
-unset ANSIBLE_CONFIG -> unset variable
-```
-```
+
 vim ansible.cfg
-```
-```
+
 [defaults] -> set defaults for Ansible.
 inventory=/tmp/hosts -> set path to inventory.
+vault_password_file=.vault_pass -> path to vault pass.
+
 ```
+
+### Ansible CLI commands
+
 ```
-ansible {host_name}/all -m setup -> info about node.
-```
-```
+
 ansible {host/group} -m {ansible_module} -a {arguments} -b
 -m -> stands for module.
 -a -> stands for arguments.
 -b -> stands for become, like root.
 -i -> if you want to specify hosts file and not take it from inventory.
---ask-become-pass -> ask for password
+--ask-become-pass -> ask for sudo password.
+
 ```
+
+## Always search for module when you need something, if there is no module then use command/shell. Read the doc.
+
 ```
-Always search for module when you need something, if there is no module then use command/shell. Read the doc.
-```
-```
+
 Examples:
 
 ansible debian -m apt -a "name=cmatrix" -b -> install cmatrix.
@@ -69,19 +72,34 @@ ansible debian -m command -a "mv /tmp/test /tmp/nove/" -b -> move file.
 ansible webservers -m apt -a "name=vim update_cache=yes" -b -> install vim on remote hostname.
 ansible dbservers -m shell -a "/sbin/reboot" -b -> reboots and disconnect immiadetely.
 ansible dbservers -m reboot -b --ask-become-pass -> wait for reboot response after reboot.
---ask-become-pass -> ask for password for sudo.
+--ask-become-pass -> ask for sudo password.
 ansible dbservers -m command -a "/sbin/reboot" -b -> reboot.
-ansible webservers -m command -a "hostname" -b -> execute command hostname on remote host.
+ansible webservers -m command -a "hostname" -b -> execute command hostname on remote host
+ansible <hostname> -m ansible.builtin.setup -> shows informations about host you can pick up variables from here.
 
 ```
+
+```
+
+export ANSIBLE_CONFIG=/path/to/config -> create variable, you can override restrictions with this. Like you can store hosts file even in /tmp.
+unset ANSIBLE_CONFIG -> unset variable
+
+```
+
 ### Playbook
 
 ```
+
 ansible-playbook {playbook.yaml} -> execute your playbook.
 --tag {tag} -> execute only task with certain task.
--e @pass.yaml --ask-vault-pass -> use your passwords file.
+-e @pass.yaml -> use your passwords file.
+--ask-vault-pass -> ask for vault password.
+--ask-become-pass -> ask for sudo password.
+
 ```
+
 ```
+
 vim playbook.yml
 
 - name: Testing Playbook
@@ -116,6 +134,7 @@ vim playbook.yml
         var: moja_var
 
 ```
+
 ```
 
 vim common.yml
@@ -142,13 +161,24 @@ vim common.yml
 ### Template
 
 ```
-Everything in loop is considerd as item so that you can reach to loop. In variables we have servers and name. We can use that as {{ item.name }}. Looping through {{ servers }} means every loop take on item. If you put only {{ item }} you will get back {'name': 'rhel'}.
+
+Everything in loop is considerd as item so that you can reach to loop.
+In variables we have servers and name.
+We can use that as {{ item.name }}.
+Looping through {{ servers }} means every loop take on item.
+If you put only {{ item }} you will get back {'name': 'rhel'}.
+
 ```
+
 ```
+
 vim. host.j2
 This is file for host: {{ item.name }}
+
 ```
+
 ```
+
 - name: CPU playbook
   hosts:
     - ubuntu
@@ -168,8 +198,11 @@ This is file for host: {{ item.name }}
       loop: "{{ servers }}"
       tags:
         - servers
+
 ```
+
 ```
+
 What is gather_facts?
 
     gather_facts: yes (default behavior) collects information about the target host, such as:
@@ -181,8 +214,11 @@ What is gather_facts?
         And more
 
 This information is stored in variables and can be used in tasks, templates, conditionals, and handlers.
+
 ```
+
 ```
+
 When to Use gather_facts: yes
 
     You Need Host Information:
@@ -204,14 +240,18 @@ When to Use gather_facts: yes
 Dynamic Inventory or Environment Customization:
 
     If your inventory dynamically defines groups or variables based on system properties, gathering facts ensures they are available.
+
 ```
+
 ### Passwords
 
 ```
+
 ansible-vault create pass.yaml -> ecnrypt your password file.
 ansible-vault enecrypt pass.yaml -> ecnrypt your password file.
 ansible-vault decrypt pass.yaml -> decrypt your password file
 ansible-vault edit pass.yaml -> edit encrypted file.
+
 ```
 
 ```
@@ -270,14 +310,3 @@ vars_files:
 
 
 ```
-
-```
-ansible <hostname> -m ansible.builtin.setup -> shows informations about host you can pick up variables from here.
-```
-```
-ansible-playbook {playbook.yaml} -> execute your playbook.
---tag {tag} -> execute only task with certain task.
--e @pass.yaml --ask-vault-pass -> use your passwords file.
-```
-
-
