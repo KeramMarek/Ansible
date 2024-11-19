@@ -188,10 +188,12 @@ Dynamic Inventory or Environment Customization:
 
     If your inventory dynamically defines groups or variables based on system properties, gathering facts ensures they are available.
 ```
-
-
+```
+ansible <hostname> -m ansible.builtin.setup -> shows informations about host you can pick up variables from here.
+```
+```
 ansible-playbook {playbook.yaml} -> execute your playbook.
 --tag {tag} -> execute only task with certain task.
-
+```
 
 
