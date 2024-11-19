@@ -45,7 +45,7 @@ vault_password_file=.vault_pass -> path to vault pass.
 
 ```
 
-### Ansible CLI commands
+### Ansible COMMANDS
 
 ```
 
