@@ -83,6 +83,8 @@ vim playbook.yml
 
   vars:
     moja_var: text
+  vars_file:
+    - path
 
   tasks:
     - name: Install cmatrix
