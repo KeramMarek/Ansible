@@ -211,6 +211,7 @@ If you don't want to be asked for password to vault then do following:
 Add entry to your .ansible.cfg
 ```
 ```
+.ansible.cfg
 [defaults]
 vault_passwords_file=.vault_pass
 ```
