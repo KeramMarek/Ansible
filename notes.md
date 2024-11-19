@@ -310,3 +310,77 @@ vars_files:
 
 
 ```
+
+### ROLE
+
+```
+
+Basically just copy your playbook into smaller pieces for tasks, for templates, for handlers etc.
+
+```
+```
+
+ansible-galaxy init testing -> create role testing and it's base strucutre.
+
+cd testing
+
+.
+├── README.md
+├── defaults -> for basic value of variables which can be changed.
+│   └── main.yml
+├── files -> place for static files.
+├── handlers -> here are going "tasks" which will be used with notify: name of handler.
+│   └── main.yml
+├── meta
+│   └── main.yml
+├── tasks 
+│   └── main.yml -> tasks write from -name here, without tasks:.
+├── templates -> directory for your templates .j2 files
+├── tests
+│   ├── inventory
+│   └── test.yml
+└── vars -> variables for running playbook which should not be changed.
+    └── main.yml
+
+```
+
+```
+
+Handler example:
+
+  tasks:
+    - name: Install Apache2
+      become: yes
+      apt:
+        name: apache2
+        state: present
+      notify: start apache #-> this is name of handler, it will be executed only if task end as CHANGED.
+ 
+  handlers:
+    - name: start apache
+      become: yes
+      service:
+        name: apache2
+        state: started
+
+```
+
+```
+
+vim role_playbook.yml
+
+- name: Role
+  hosts:
+     - ubuntu
+     #- debian
+     #- rhel
+  gather_facts: yes
+  vars_files:
+    - passwds.yml
+
+  roles:
+    - common
+
+This will start role common created.
+
+```
