@@ -1,17 +1,20 @@
 ```
+
 ansible --version -> shows version and basic paths.
+
 ```
 
 ### Inventory file
+
 ```
+
 vim hosts
-```
-```
-ubuntu ansible_connection=local ansible_user=ubuntu VARIABLE=VALUE
+
+ubuntu ansible_connection=local ansible_user=ubuntu ansible_become_pass='{{ ubuntu_sudo_pass }}'
 rhel ansible_host=54.93.174.83 ansible_port=22 ansible_user=ec2-user
 debian ansible_host=3.71.12.45 ansible_port=22 ansible_user=admin
 
-# {name} ansible_host={remote_host_IP} ansible_port={port} ansible_user={remote_host_user} VARIABLE=VALUE #
+# {name} ansible_host={remote_host_IP} ansible_port={port} ansible_user={remote_host_user} ansible_become_pass='{{ value }}' #
 # for local host: #
 # {name} ansible_connection=local ansible_user={local_host_user} VARIABLE=VALUE #
 
@@ -27,6 +30,7 @@ ansible_user=ubuntu
 
 [all:vars] -> variables for all.
 ansible_user=ubuntu
+
 ```
 ### Config file
 ```
@@ -34,7 +38,7 @@ export ANSIBLE_CONFIG=/path/to/config -> create variable, you can override restr
 unset ANSIBLE_CONFIG -> unset variable
 ```
 ```
-vim .ansible.cfg
+vim ansible.cfg
 ```
 ```
 [defaults] -> set defaults for Ansible.
@@ -71,6 +75,12 @@ ansible webservers -m command -a "hostname" -b -> execute command hostname on re
 
 ```
 ### Playbook
+
+```
+ansible-playbook {playbook.yaml} -> execute your playbook.
+--tag {tag} -> execute only task with certain task.
+-e @pass.yaml --ask-vault-pass -> use your passwords file.
+```
 ```
 vim playbook.yml
 
@@ -104,8 +114,10 @@ vim playbook.yml
 
     - debug:
         var: moja_var
+
 ```
 ```
+
 vim common.yml
 
 - name: Common
@@ -124,8 +136,11 @@ vim common.yml
         - bluefish
       state: present
       update_cache: yes
+
 ```
+
 ### Template
+
 ```
 Everything in loop is considerd as item so that you can reach to loop. In variables we have servers and name. We can use that as {{ item.name }}. Looping through {{ servers }} means every loop take on item. If you put only {{ item }} you will get back {'name': 'rhel'}.
 ```
@@ -191,39 +206,71 @@ Dynamic Inventory or Environment Customization:
     If your inventory dynamically defines groups or variables based on system properties, gathering facts ensures they are available.
 ```
 ### Passwords
+
 ```
+ansible-vault create pass.yaml -> ecnrypt your password file.
 ansible-vault enecrypt pass.yaml -> ecnrypt your password file.
 ansible-vault decrypt pass.yaml -> decrypt your password file
 ansible-vault edit pass.yaml -> edit encrypted file.
 ```
+
 ```
+
+ansible-vault create pass.yaml
+
 pass.yaml
 ubuntu_sudo_pass: password
+
 ```
+
 ```
+
+Modify your hosts file:
+
+ansible_become_pass='{{ ubuntu_sudo_pass }}' -> ubuntu_sudo_pass name of variable in passwds.yaml
+
+EXAMPLE:
+ubuntu ansible_connection=local ansible_user=ubuntu ansible_become_pass='{{ ubuntu_sudo_pass }}'
+
+```
+
+```
+
 You can run playbook with this:
+
+ansible-playbook {playbook.yaml} -e @pass.yaml --ask-vault-pass
+-e @pass.yaml -> specify vault file with passwords.
+--ask-vault-pass -> ask for password to vault.
+
 ```
+
 ```
-ansible-playbook {playbook.yaml} -e @pass.yaml --ask-vault-pass -> use your vault file with passwords and ask for password for it.
-```
-```
+
 If you don't want to be asked for password to vault then do following:
-```
-```
-Add entry to your .ansible.cfg
-```
-```
-.ansible.cfg
-[defaults]
-vault_passwords_file=.vault_pass
-```
-```
+
 Create .vault_pass and add your password there:
-```
-```
+
 .vault_pass
 password
+
+Add entry to your ansible.cfg:
+
+ansible.cfg
+[defaults]
+vault_password_file=.vault_pass
+
 ```
+
+```
+
+If you don't want to use -e @pass.yaml u can use in your playbook:
+
+vars_files:
+    - passwds.yml
+
+
+```
+
 ```
 ansible <hostname> -m ansible.builtin.setup -> shows informations about host you can pick up variables from here.
 ```
