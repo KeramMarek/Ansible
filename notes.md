@@ -125,7 +125,7 @@ vim common.yml
 ```
 ### Template
 ```
-Everything in loop is considerd as item so that you can reach to loop. In variables we have servers and name. We can use that as {{ item.name }}. Looping through {{ servers }} means every loop take on item.
+Everything in loop is considerd as item so that you can reach to loop. In variables we have servers and name. We can use that as {{ item.name }}. Looping through {{ servers }} means every loop take on item. If you put only {{ item }} you will get back {'name': 'rhel'}.
 ```
 ```
 vim. host.j2
