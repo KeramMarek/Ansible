@@ -188,12 +188,46 @@ Dynamic Inventory or Environment Customization:
 
     If your inventory dynamically defines groups or variables based on system properties, gathering facts ensures they are available.
 ```
+### Passwords
+```
+ansible-vault enecrypt pass.yaml -> ecnrypt your password file.
+ansible-vault decrypt pass.yaml -> decrypt your password file
+ansible-vault edit pass.yaml -> edit encrypted file.
+```
+```
+pass.yaml
+ubuntu_sudo_pass: password
+```
+```
+You can run playbook with this:
+```
+```
+ansible-playbook {playbook.yaml} -e @pass.yaml --ask-vault-pass -> use your vault file with passwords and ask for password for it.
+```
+```
+If you don't want to be asked for password to vault then do following:
+```
+```
+Add entry to your .ansible.cfg
+```
+```
+[defaults]
+vault_passwords_file=.vault_pass
+```
+```
+Create .vault_pass and add your password there:
+```
+```
+.vault_pass
+password
+```
 ```
 ansible <hostname> -m ansible.builtin.setup -> shows informations about host you can pick up variables from here.
 ```
 ```
 ansible-playbook {playbook.yaml} -> execute your playbook.
 --tag {tag} -> execute only task with certain task.
+-e @pass.yaml --ask-vault-pass -> use your passwords file.
 ```
 
 
