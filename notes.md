@@ -123,6 +123,35 @@ vim common.yml
       state: present
       update_cache: yes
 ```
+### Template
+```
+Everything in loop is considerd as item so that you can reach to loop. In variables we have servers and name. We can use that as {{ item.name }}. Looping through {{ servers }} means every loop take on item.
+```
+```
+vim. host.j2
+This is file for host: {{ item.name }}
+```
+```
+- name: CPU playbook
+  hosts:
+    - ubuntu
+    #- debian
+    #- rhel
+  gather_facts: yes
+  vars:
+    servers:
+      - name: ubuntu
+      - name: debian
+      - name: rhel
+  tasks:
+    - name: servers
+      template:
+        src: host.j2
+        dest: "/tmp/{{ item.name }}.txt"
+      loop: "{{ servers }}"
+      tags:
+        - servers
+```
 ```
 What is gather_facts?
 
