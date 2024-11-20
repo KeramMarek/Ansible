@@ -407,7 +407,9 @@ my_role/
 ---
 
 ### Example Handler
+
 Call handler with notify:
+
 Example:
 #### File: `tasks/main.yml`
 ```yaml
