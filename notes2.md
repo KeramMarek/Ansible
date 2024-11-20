@@ -232,6 +232,13 @@ This is file for host: {{ item.name }}
       tags:
         - template
 ```
+```
+- everything in loop is considerd as item so that you can reach to loop.
+- in variables we have servers and name.
+- we can use that as {{ item.name }}.
+- looping through {{ servers }} means every loop take on item.
+- if you put only {{ item }} you will get back {'name': 'rhel'}.
+```
 
 ---
 
