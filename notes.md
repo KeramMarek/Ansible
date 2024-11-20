@@ -384,3 +384,46 @@ vim role_playbook.yml
 This will start role common created.
 
 ```
+
+### Register - return values to other jobs
+
+```
+- name: Register
+  command: echo "ahoj"
+  register: arch_out
+  tags:
+    - register
+
+- debug: 
+    var: arch_out
+  tags:
+    - register
+```
+
+```
+ok: [ubuntu] => {
+    "arch_out": {
+        "changed": true,
+        "cmd": [
+            "echo"
+            "ahoj"
+        ],
+        "delta": "0:00:00.004797",
+        "end": "2024-11-20 09:38:57.256258",
+        "failed": false,
+        "msg": "",
+        "rc": 0,
+        "start": "2024-11-20 09:38:57.251461",
+        "stderr": "",
+        "stderr_lines": [],
+        **"stdout": "ahoj",**
+        "stdout_lines": [
+            "ahoj"
+        ]
+    }
+}
+```
+
+```
+If I want only "ahoj" I have to use variable like that arch_out.stdout
+
