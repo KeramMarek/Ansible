@@ -251,6 +251,8 @@ Add entry to your ansible.cfg:
 ansible.cfg
 [defaults]
 vault_password_file=.vault_pass
+```
+```
 If you don't want to use -e @pass.yaml u can use in your playbook:
 vars_files:
     - passwds.yml
