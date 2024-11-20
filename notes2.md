@@ -135,7 +135,11 @@ ansible <host> -m ansible.builtin.setup
 
 Run a playbook:
 ```bash
-ansible-playbook {playbook.yaml} --tag {tag} -e @pass.yaml --ask-vault-pass --ask-become-pass
+ansible-playbook {playbook.yaml} -> execute your playbook.
+--tag {tag} -> execute only task with certain task.
+-e @pass.yaml -> use your passwords file.
+--ask-vault-pass -> ask for vault password.
+--ask-become-pass -> ask for sudo password.
 ```
 
 ---
@@ -297,8 +301,31 @@ my_role/
   command: echo "hello"
   register: command_output
 
+```command_output
+```ok: [ubuntu] => {
+    "arch_out": {
+        "changed": true,
+        "cmd": [
+            "echo"
+            "ahoj"
+        ],
+        "delta": "0:00:00.004797",
+        "end": "2024-11-20 09:38:57.256258",
+        "failed": false,
+        "msg": "",
+        "rc": 0,
+        "start": "2024-11-20 09:38:57.251461",
+        "stderr": "",
+        "stderr_lines": [],
+        "stdout": "ahoj",    -----> here is value that we need.
+        "stdout_lines": [
+            "ahoj"
+        ]
+    }
+}```
+
 - debug:
-    var: command_output.stdout
+    var: command_output.stdout -> .stdout because you can see that "ahoj" is in stdout.
 ```
 
 ---
