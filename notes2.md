@@ -301,8 +301,8 @@ my_role/
   command: echo "hello"
   register: command_output
 
-```command_output
-```ok: [ubuntu] => {
+command_output:
+ok: [ubuntu] => {
     "arch_out": {
         "changed": true,
         "cmd": [
@@ -322,7 +322,7 @@ my_role/
             "ahoj"
         ]
     }
-}```
+}
 
 - debug:
     var: command_output.stdout -> .stdout because you can see that "ahoj" is in stdout.
