@@ -238,6 +238,8 @@ This is file for host: {{ item.name }}
 - we can use that as {{ item.name }}.
 - looping through {{ servers }} means every loop take on item.
 - if you put only {{ item }} you will get back {'name': 'rhel'}.
+
+So in example up item = servers, item.name = ubuntu ...
 ```
 
 ---
