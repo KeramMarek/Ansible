@@ -175,6 +175,27 @@ ansible-playbook {playbook.yaml} -> execute your playbook.
       debug:
         var: my_var
 ```
+```yaml
+
+vim common.yml
+
+- name: Common
+  hosts:
+    - ubuntu
+  #gather_facts: no
+  tasks:
+  - name: Install all packages
+    become: yes
+    apt:
+      name:
+        - htop
+        - vim
+        - kazam
+        - filezilla
+        - bluefish
+      state: present
+      update_cache: yes
+```
 
 ---
 
