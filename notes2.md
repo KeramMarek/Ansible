@@ -269,6 +269,89 @@ my_role/
 └── meta/            # Metadata
 ```
 
+### Example Role
+```yaml
+---
+# tasks file for dev
+- name: Install git and docker prerequisities
+  become: yes
+  apt:
+    name: 
+      - git
+      - ca-certificates
+      - curl
+    state: present
+    update_cache: yes
+    cache_valid_time: 600
+  tags:
+    - dev
+
+- name: "Create {{ keyrings_dir }} dir"
+  become: yes
+  file:
+    name: "{{ keyrings_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Add GPG key for docker repository
+  become: yes
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    keyring: "{{ keyrings_dir }}/docker.gpg"
+    state: present
+
+- name: "Set correct rights for {{ keyrings_dir }}/docker.gpg"
+  become: yes
+  file:
+    path: "{{ keyrings_dir }}/docker.gpg"
+    mode: a+r
+
+- name: Get OS arch
+  command: dpkg --print-architecture
+  register: arch_out
+
+- name: Add the repository to Apt sources" -> apt module
+  become: yes
+  ansible.builtin.apt_repository:
+    repo: "deb [arch={{ arch_out.stdout }} signed-by={{ keyrings_dir }}/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    filename: docker
+    state: present
+
+- name:  Add the repository to Apt sources" -> shell
+  become: yes
+  shell: | -> this pipeline tells that the command will be on more lines.
+    "deb [arch=$(dpkg --print-architecture) signed-by={{ keyrings_dir }}/docker.gpg] https://download.docker.com/linux/ubuntu \
+    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+    tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+- name: Install docker
+  become: yes
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+    update_cache: yes
+  notify: start docker service
+
+- name: Ensure group "docker" exists
+  become: yes
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: Add the users to docker group
+  become: yes
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: docker
+    append: yes
+  loop: "{{ docker_users }}"
+```
+
 ---
 
 ### Example Handler
@@ -302,7 +385,7 @@ my_role/
   register: command_output
 
 - debug:
-    var: command_output.stdout -> .stdout because you can see that "ahoj" is in stdout.
+    var: command_output.stdout -> .stdout because you can see lower, that "ahoj" is in stdout.
 ```
 
 ```yaml
