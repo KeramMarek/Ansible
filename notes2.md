@@ -407,15 +407,8 @@ my_role/
 ---
 
 ### Example Handler
-
-#### File: `handlers/main.yml`
-```yaml
-- name: restart_apache
-  service:
-    name: apache2
-    state: restarted
-```
-
+Call handler with notify:
+Example:
 #### File: `tasks/main.yml`
 ```yaml
 - name: Install Apache
@@ -423,6 +416,13 @@ my_role/
     name: apache2
     state: present
   notify: restart_apache
+```
+#### File: `handlers/main.yml`
+```yaml
+- name: restart_apache
+  service:
+    name: apache2
+    state: restarted
 ```
 
 ---
