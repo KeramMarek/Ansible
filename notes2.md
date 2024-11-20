@@ -269,9 +269,10 @@ my_role/
 └── meta/            # Metadata
 ```
 
+---
+
 ### Example Role
 ```yaml
----
 # tasks file for dev
 - name: Install git and docker prerequisities
   become: yes
