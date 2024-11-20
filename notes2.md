@@ -48,7 +48,7 @@ The inventory file specifies hosts and their properties.
 #### Example:
 ```ini
 # Define hosts
-ubuntu ansible_connection=local ansible_user=ubuntu ansible_become_pass='{{ ubuntu_sudo_pass }}'
+ubuntu ansible_connection=local ansible_user=ubuntu ansible_become_pass='{{ ubuntu_sudo_pass }}' -> for local connection see diff between ubuntu and rhel.
 rhel ansible_host=54.93.174.83 ansible_port=22 ansible_user=ec2-user
 debian ansible_host=3.71.12.45 ansible_port=22 ansible_user=admin
 
@@ -226,14 +226,14 @@ ansible-vault edit pass.yaml        # Edit encrypted file
 
 ---
 
-### Example Password File
+### Example Password File created by ansible-vault create pass.yaml 
 
 #### File: `pass.yaml`
 ```yaml
 ubuntu_sudo_pass: my_password
 ```
 
-#### Inventory File Example:
+#### Inventory File Example: 
 ```ini
 ubuntu ansible_connection=local ansible_user=ubuntu ansible_become_pass='{{ ubuntu_sudo_pass }}'
 ```
@@ -241,6 +241,19 @@ ubuntu ansible_connection=local ansible_user=ubuntu ansible_become_pass='{{ ubun
 #### Run with Vault:
 ```bash
 ansible-playbook {playbook.yaml} -e @pass.yaml --ask-vault-pass
+```
+```
+If you don't want to be asked for password to vault then do following:
+Create .vault_pass and add your password there:
+.vault_pass
+password
+Add entry to your ansible.cfg:
+ansible.cfg
+[defaults]
+vault_password_file=.vault_pass
+If you don't want to use -e @pass.yaml u can use in your playbook:
+vars_files:
+    - passwds.yml
 ```
 
 ---
