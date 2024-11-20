@@ -264,9 +264,10 @@ ansible-vault edit pass.yaml        # Edit encrypted file
 ubuntu_sudo_pass: my_password
 ```
 
-#### Inventory File Example: 
 - add entry to your inventory file ansible_become_pass='{{ ubuntu_sudo_pass }}
 - {{ ubuntu_sudo_pass }} -> this variable we specifed in pass.yaml
+  
+#### Inventory File Example: 
 ```ini
 ubuntu ansible_connection=local ansible_user=ubuntu ansible_become_pass='{{ ubuntu_sudo_pass }}'
 ```
