@@ -64,6 +64,7 @@ ubuntu
 [webservers2:vars]
 ansible_user=ubuntu
 
+# Variables for All
 [all:vars]
 ansible_user=ubuntu
 ```
