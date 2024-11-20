@@ -416,7 +416,7 @@ ok: [ubuntu] => {
         "start": "2024-11-20 09:38:57.251461",
         "stderr": "",
         "stderr_lines": [],
-        **"stdout": "ahoj",**
+        "stdout": "ahoj",    -----> here is value that we need.
         "stdout_lines": [
             "ahoj"
         ]
@@ -425,5 +425,5 @@ ok: [ubuntu] => {
 ```
 
 ```
-If I want only "ahoj" I have to use variable like that arch_out.stdout
+If I want only "ahoj" I have to use variable like that arch_out.stdout.
 
