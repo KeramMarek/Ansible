@@ -388,6 +388,7 @@ This will start role common created.
 ### Register - return values to other jobs
 
 ```
+
 - name: Register
   command: echo "ahoj"
   register: arch_out
@@ -398,9 +399,11 @@ This will start role common created.
     var: arch_out
   tags:
     - register
+
 ```
 
 ```
+
 ok: [ubuntu] => {
     "arch_out": {
         "changed": true,
@@ -422,8 +425,11 @@ ok: [ubuntu] => {
         ]
     }
 }
+
 ```
 
 ```
+
 If I want only "ahoj" I have to use variable like that arch_out.stdout.
 
+```
