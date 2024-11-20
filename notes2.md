@@ -242,6 +242,7 @@ ubuntu ansible_connection=local ansible_user=ubuntu ansible_become_pass='{{ ubun
 ```bash
 ansible-playbook {playbook.yaml} -e @pass.yaml --ask-vault-pass
 ```
+#### Run without --ask-vault-pass:
 ```
 If you don't want to be asked for password to vault then do following:
 Create .vault_pass and add your password there:
@@ -252,6 +253,7 @@ ansible.cfg
 [defaults]
 vault_password_file=.vault_pass
 ```
+#### Run without -e @pass.yaml:
 ```
 If you don't want to use -e @pass.yaml u can use in your playbook:
 vars_files:
