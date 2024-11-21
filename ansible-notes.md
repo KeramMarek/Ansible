@@ -137,6 +137,8 @@ ansible <host> -m ansible.builtin.setup
 
 ### Basics
 
+ALWAYS TRY TO LOOK FOR ANSIBLE MODULE FOR WHATEVER YOU NEED. Copy, download, apt etc.
+
 Run a playbook:
 ```bash
 ansible-playbook {playbook.yaml} -> execute your playbook.
