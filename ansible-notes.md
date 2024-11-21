@@ -21,6 +21,7 @@
 7. [Roles](#roles)
    - [Initializing a Role](#initializing-a-role)
    - [Directory Structure](#directory-structure)
+   - [Include](#include)
    - [Example Handler](#example-handler)
 8. [Register](#register)
    - [Using Register](#using-register)
