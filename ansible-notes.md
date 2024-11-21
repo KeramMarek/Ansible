@@ -144,6 +144,32 @@ ansible-playbook {playbook.yaml} -> execute your playbook.
 --ask-become-pass -> ask for sudo password.
 ```
 
+### Add Repository and GPG key
+
+```yaml
+- name: Add PHP repository for Debian
+  become: yes
+  apt_repository:
+    repo: "deb https://packages.sury.org/php/ {{ ansible_distribution_release }} main"
+    state: present
+
+- name: Add PHP GPG key
+  become: yes
+  apt_key:
+    url: https://packages.sury.org/php/apt.gpg
+    state: present
+```
+
+```
+This was in documentation for GPG and Repo
+
+wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list 
+
+$(lsb_release -sc is changed by {{ ansible_distribution_release }} for function. 
+You can see output of $(lsb_release -sc) and find in ansible <host> -m ansible.builtin.setup variable with same output which is {{ ansible_distribution_release }}.
+```
+
 ---
 
 ### Example Playbook
