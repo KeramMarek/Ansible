@@ -23,6 +23,7 @@
    - [Initializing a Role](#initializing-a-role)
    - [Directory Structure](#directory-structure)
    - [Block](#block)
+   - [When](#when)
    - [Include](#include)
    - [Example Handler](#example-handler)
 8. [Register](#register)
@@ -476,6 +477,54 @@ Using block is particularly useful when you have complex playbooks that involve 
           file:
             path: /tmp/nginx_install_log
             state: absent
+```
+
+---
+
+### When
+
+Option 1: Using and to Combine Conditions
+```yaml
+- include_tasks: ubuntu.yml
+  when: ansible_lsb.id == 'Ubuntu' and ansible_os_family != 'Debian'
+```
+Option 2: Using a List for Multiple Conditions
+```yaml
+- include_tasks: ubuntu.yml
+  when:
+    - ansible_lsb.id == 'Ubuntu'
+    - ansible_os_family != 'Debian'
+```
+Examples:
+```yaml
+- name: Install Apache on RedHat-based systems
+  yum:
+    name: httpd
+    state: present
+  when: ansible_os_family == "RedHat"
+```
+```yaml
+- name: Install specific package on Ubuntu 20.04
+  apt:
+    name: mypackage
+    state: present
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "20.04"
+```
+```yaml
+- name: Restart a service if a variable is true
+  service:
+    name: apache2
+    state: restarted
+  when: restart_apache is defined and restart_apache
+```
+```yaml
+- name: Copy a file only if it doesn't exist
+  copy:
+    src: /path/to/source/file
+    dest: /path/to/destination/file
+  when: not file_exists.stat.exists
+  register: file_exists
+  delegate_to: localhost
 ```
 
 ---
