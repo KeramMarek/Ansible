@@ -403,6 +403,17 @@ my_role/
     append: yes
   loop: "{{ docker_users }}"
 ```
+### Include
+
+You can create in tasks debian.yml and ubuntu.yml and in main.yml copy include_tasks which checks condition and run only yml which meets the condition.
+
+```yaml
+- include_tasks: debian.yml
+  when: ansible_os_family == 'Debian'
+
+- include_tasks: ubuntu.yml
+  when: ansible_os_family == 'Ubuntu'
+```
 
 ---
 
