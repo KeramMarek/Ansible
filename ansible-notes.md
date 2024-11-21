@@ -431,6 +431,52 @@ my_role/
     append: yes
   loop: "{{ docker_users }}"
 ```
+
+---
+
+### Block
+
+Key Benefits
+
+    Error Handling:
+        Perform alternate actions when a set of tasks fails.
+    Cleanup:
+        Always execute cleanup tasks regardless of task success or failure.
+    Code Readability:
+        Logically groups tasks together, making playbooks easier to understand and maintain.
+
+Using block is particularly useful when you have complex playbooks that involve dependent tasks or need to ensure cleanup after a failure.
+
+```yaml
+- name: Install and verify package with block
+  hosts: localhost
+  tasks:
+    - name: Ensure nginx is installed
+      block:
+        - name: Install nginx
+          yum:
+            name: nginx
+            state: present
+
+        - name: Verify nginx version
+          command: nginx -v
+          register: nginx_version
+          failed_when: "'command not found' in nginx_version.stderr"
+
+      rescue:
+        - name: Log error
+          debug:
+            msg: "Failed to install or verify nginx"
+
+      always:
+        - name: Cleanup temporary files
+          file:
+            path: /tmp/nginx_install_log
+            state: absent
+```
+
+---
+
 ### Include
 
 You can create in tasks debian.yml and ubuntu.yml and in main.yml copy include_tasks which checks condition and run only yml which meets the condition.
