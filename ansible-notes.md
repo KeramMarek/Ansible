@@ -11,6 +11,7 @@
    - [Examples](#examples)
 4. [Playbooks](#playbooks)
    - [Basics](#basics)
+   - [Add Repository and GPG key](#add-repository-and-gpg-key)
    - [Example Playbook](#example-playbook)
 5. [Templates](#templates)
    - [File Example](#file-example)
@@ -147,16 +148,16 @@ ansible-playbook {playbook.yaml} -> execute your playbook.
 ### Add Repository and GPG key
 
 ```yaml
-- name: Add PHP repository for Debian
-  become: yes
-  apt_repository:
-    repo: "deb https://packages.sury.org/php/ {{ ansible_distribution_release }} main"
-    state: present
-
 - name: Add PHP GPG key
   become: yes
   apt_key:
     url: https://packages.sury.org/php/apt.gpg
+    state: present
+
+- name: Add PHP repository for Debian
+  become: yes
+  apt_repository:
+    repo: "deb https://packages.sury.org/php/ {{ ansible_distribution_release }} main"
     state: present
 ```
 
