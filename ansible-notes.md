@@ -575,6 +575,8 @@ dependencies:
 	- lamp
 ```
 
+---
+
 ## Register
 
 ### Using Register
