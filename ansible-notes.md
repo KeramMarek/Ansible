@@ -26,6 +26,7 @@
    - [When](#when)
    - [Include](#include)
    - [Example Handler](#example-handler)
+   - [Dependencies](#dependencies)
 8. [Register](#register)
    - [Using Register](#using-register)
 9. [Gather Facts](#gather-facts)
@@ -147,6 +148,7 @@ ansible-playbook {playbook.yaml} -> execute your playbook.
 -e @pass.yaml -> use your passwords file.
 --ask-vault-pass -> ask for vault password.
 --ask-become-pass -> ask for sudo password.
+-check -> starts dry run.
 ```
 
 ### Add Repository and GPG key
@@ -565,6 +567,13 @@ Example:
 ```
 
 ---
+
+### Dependencies
+In meta folder you can add to dependencies role to execute.
+```yaml
+dependencies:
+	- lamp
+```
 
 ## Register
 
