@@ -31,6 +31,7 @@
    - [Using Register](#using-register)
 9. [Gather Facts](#gather-facts)
    - [When to Use `gather_facts`](#when-to-use-gather_facts)
+10. [Example Playbooks](#example-playbooks)
 
 ---
 
@@ -642,3 +643,29 @@ Gathering facts collects system details like:
         state: present
       when: ansible_os_family == "RedHat"
 ```
+
+---
+
+# Example playbooks
+
+```yaml
+- name: Create and execute script.sh
+  hosts:
+    - ubuntu
+
+  tasks:
+    - name: Create script.sh
+      shell: |
+        echo "#!/bin/bash" > script.sh
+        echo "touch emptyfile.txt" >> script.sh
+        echo "echo 'emptyfile.txt has been created'" >> script.sh
+        chmod +x script.sh
+
+    - name: Execute script.sh
+      shell: ./script.sh > output.txt
+
+    - name: Cleaning
+      command: rm -rf script.sh emptyfile.txt
+```
+
+
