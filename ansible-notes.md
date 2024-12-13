@@ -668,4 +668,35 @@ Gathering facts collects system details like:
       command: rm -rf script.sh emptyfile.txt
 ```
 
+```yaml
+- name: Install Apache
+  hosts:
+    - ubuntu
+  gather_facts: no
+
+  tasks:
+    - name: Install Apache
+      become: yes
+      ansible.builtin.apt:
+        name:
+          - apache2
+        state: present
+
+    - name: Ensure the default Apache port is 8080
+      become: yes
+      ansible.builtin.lineinfile:
+        path: /etc/apache2/apache2.conf
+        regexp: '^Listen '
+        insertafter: '^#Listen '
+        line: Listen 8080
+
+    - name: Copy file with owner and permissions
+      become: yes
+      ansible.builtin.copy:
+        src: ~/ansible/index.html
+        dest: /var/www/html/index.html
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+```
 
