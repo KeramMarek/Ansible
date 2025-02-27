@@ -126,6 +126,7 @@ ansible debian -m command -a "mkdir /tmp/nove" -b  # Create directory
 ansible webservers -m hostname -a "name=new-hostname" -b  # Change hostname
 ansible debian -m copy -a "src=/home/ubuntu/test dest=/tmp" -b  # Copy file
 ansible dbservers -m reboot -b --ask-become-pass   # Reboot and wait
+ansible redhat -m file -a "path=/tmp/test state=directory"
 ```
 
 #### Helpful Command:
