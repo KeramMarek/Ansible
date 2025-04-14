@@ -36,7 +36,20 @@
 ---
 
 ## Ansible Basics
-
+### Installing ansible:
+```bash
+sudo apt update
+sudo apt install software-properties-common
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+sudo apt install ansible
+```
+Using pip (cross-platform, including Windows via WSL or Linux):
+```bash
+pip install ansible
+python3 -m venv ansible-env
+source ansible-env/bin/activate
+pip install ansible
+```
 ### Check Version
 ```bash
 ansible --version
