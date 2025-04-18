@@ -713,4 +713,46 @@ Gathering facts collects system details like:
         group: ubuntu
         mode: '0644'
 ```
+# Full scrpt task:
+```yaml
+- name: creating a script
+  hosts:
+    - ubuntu
 
+  tasks:
+      # - name: created script.sh
+      #   shell: |
+      #     echo "#!/bin/bash" > script.sh
+      #     echo "touch emptyfile.txt" >> script.sh
+      #     echo "echo 'emptyfile.txt has been created'" >> script.sh
+      #     chmod +x script.sh
+
+      # - name: Execute script.sh
+      #   shell: ./script.sh > output.txt
+
+      
+        - name: Create an empty file
+          file:
+            path: /home/ubuntu/marek.grohol/main_practice/script.sh
+            state: touch
+
+        - name: fill the script
+          shell: |
+            echo "#!/bin/bash" > script.sh
+            echo "touch emptyfile.txt" >> script.sh
+            echo "echo 'empty file has been created'" >> script.sh
+            chmod +x script.sh
+
+        - name: execute the script
+          shell:
+            ./script.sh > output.txt
+        
+        - name: Remove two files
+          file:
+            path: "{{ item }}"
+            state: absent
+          loop:
+            - /home/ubuntu/marek.grohol/main_practice/script.sh
+            - /home/ubuntu/marek.grohol/main_practice/emptyfile.txt
+            - /home/ubuntu/marek.grohol/main_practice/output.txt
+```
