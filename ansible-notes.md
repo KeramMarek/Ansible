@@ -756,3 +756,30 @@ Gathering facts collects system details like:
             - /home/ubuntu/marek.grohol/main_practice/emptyfile.txt
             - /home/ubuntu/marek.grohol/main_practice/output.txt
 ```
+
+# script with lineinfile:
+```yaml
+- name: Create and execute script.sh
+  hosts:
+    - ubuntu
+
+  tasks:
+    - name: Create script.sh
+      shell: |
+        echo "#!/bin/bash" > script.sh
+        echo "touch emptyfile.txt" >> script.sh
+        echo "echo 'emptyfile.txt has been created'" >> script.sh
+        chmod +x script.sh
+
+    
+
+
+    - name: Replace line containing 'created' with 'done'
+      lineinfile:
+        path: script.sh
+        regexp: "created"
+        line: "echo 'emptyfile.txt has been done'"
+
+    - name: execut
+      shell: ./script.sh > output.txt
+```
