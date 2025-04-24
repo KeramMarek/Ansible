@@ -68,6 +68,7 @@ The inventory file specifies hosts and their properties.
 ```ini
 # Define hosts
 ubuntu ansible_connection=local ansible_user=ubuntu ansible_become_pass='{{ ubuntu_sudo_pass }}' -> for local connection see diff between ubuntu and rhel.
+
 rhel ansible_host=54.93.174.83 ansible_port=22 ansible_user=ec2-user
 debian ansible_host=3.71.12.45 ansible_port=22 ansible_user=admin
 
